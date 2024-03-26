@@ -37,6 +37,14 @@ func (field Field) NeighborCount(column int, row int) int {
 	return count
 }
 
+func (field Field) NextCell(column int, row int) bool {
+	cell := field.Cell(column, row)
+	neighborCount := field.NeighborCount(column, row)
+	willBeBorn := !cell && neighborCount == 3
+	willSurvive := cell && (neighborCount == 2 || neighborCount == 3)
+	return willBeBorn || willSurvive
+}
+
 func wrapAroundModulus(value int, modulus int) int {
 	return (value + modulus) % modulus
 }

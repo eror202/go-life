@@ -91,3 +91,42 @@ func TestField_NeighborCount_forAliveCell(test *testing.T) {
 
 	assert.Equal(test, 4, count)
 }
+
+func TestField_NextCell_willBeBorn(test *testing.T) {
+	field := Field{
+		{false, false, false, false, false},
+		{false, false, true, false, false},
+		{false, false /* ! */, false, true, false},
+		{false, true, true, true, false},
+		{false, false, false, false, false},
+	}
+	cell := field.NextCell(1, 2)
+
+	assert.True(test, cell)
+}
+
+func TestField_NextCell_willSurvive(test *testing.T) {
+	field := Field{
+		{false, false, false, false, false},
+		{false, false, true, false, false},
+		{false, false, false, true /* ! */, false},
+		{false, true, true, true, false},
+		{false, false, false, false, false},
+	}
+	cell := field.NextCell(3, 2)
+
+	assert.True(test, cell)
+}
+
+func TestField_NextCell_willDie(test *testing.T) {
+	field := Field{
+		{false, false, false, false, false},
+		{false, false, true /* ! */, false, false},
+		{false, false, false, true, false},
+		{false, true, true, true, false},
+		{false, false, false, false, false},
+	}
+	cell := field.NextCell(2, 1)
+
+	assert.False(test, cell)
+}
