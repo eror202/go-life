@@ -20,6 +20,23 @@ func (field Field) SetCell(column int, row int, cell bool) {
 	field[row][column] = cell
 }
 
+func (field Field) NeighborCount(column int, row int) int {
+	var count int
+	for rowOffset := -1; rowOffset <= 1; rowOffset++ {
+		for columnOffset := -1; columnOffset <= 1; columnOffset++ {
+			if rowOffset == 0 && columnOffset == 0 {
+				continue
+			}
+
+			if field.Cell(column+columnOffset, row+rowOffset) {
+				count++
+			}
+		}
+	}
+
+	return count
+}
+
 func wrapAroundModulus(value int, modulus int) int {
 	return (value + modulus) % modulus
 }

@@ -69,3 +69,25 @@ func TestField_SetCell(test *testing.T) {
 	}
 	assert.Equal(test, expectedField, field)
 }
+
+func TestField_NeighborCount(test *testing.T) {
+	field := Field{
+		{true, false, false},
+		{false, true, true},
+		{true, false, false},
+	}
+	count := field.NeighborCount(0, 1)
+
+	assert.Equal(test, 4, count)
+}
+
+func TestField_NeighborCount_forAliveCell(test *testing.T) {
+	field := Field{
+		{true, false, false},
+		{true, true, true},
+		{true, false, false},
+	}
+	count := field.NeighborCount(0, 1)
+
+	assert.Equal(test, 4, count)
+}
