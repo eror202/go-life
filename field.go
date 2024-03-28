@@ -1,5 +1,10 @@
 package life
 
+const (
+	deadCellRepresentation  = '.'
+	aliveCellRepresentation = 'O'
+)
+
 type Field [][]bool
 
 func NewField(width int, height int) Field {
@@ -64,6 +69,23 @@ func (field Field) NextField() Field {
 	}
 
 	return nextField
+}
+
+func (field Field) String() string {
+	result := ""
+	for row := 0; row < field.Height(); row++ {
+		for column := 0; column < field.Width(); column++ {
+			if field.Cell(column, row) {
+				result += string(aliveCellRepresentation)
+			} else {
+				result += string(deadCellRepresentation)
+			}
+		}
+
+		result += "\n"
+	}
+
+	return result
 }
 
 func wrapAroundModulus(value int, modulus int) int {
