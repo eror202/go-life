@@ -6,6 +6,16 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestNewField(test *testing.T) {
+	field := NewField(3, 2)
+
+	expectedField := Field{
+		{false, false, false},
+		{false, false, false},
+	}
+	assert.Equal(test, expectedField, field)
+}
+
 func TestField_Width(test *testing.T) {
 	field := Field{
 		{false, false, false},
@@ -129,4 +139,24 @@ func TestField_NextCell_willDie(test *testing.T) {
 	cell := field.NextCell(2, 1)
 
 	assert.False(test, cell)
+}
+
+func TestField_NextField(test *testing.T) {
+	field := Field{
+		{false, false, false, false, false},
+		{false, false, true, false, false},
+		{false, false, false, true, false},
+		{false, true, true, true, false},
+		{false, false, false, false, false},
+	}
+	nextField := field.NextField()
+
+	expectedNextField := Field{
+		{false, false, false, false, false},
+		{false, false, false, false, false},
+		{false, true, false, true, false},
+		{false, false, true, true, false},
+		{false, false, true, false, false},
+	}
+	assert.Equal(test, expectedNextField, nextField)
 }

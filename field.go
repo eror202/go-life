@@ -2,6 +2,15 @@ package life
 
 type Field [][]bool
 
+func NewField(width int, height int) Field {
+	field := make(Field, height)
+	for index := range field {
+		field[index] = make([]bool, width)
+	}
+
+	return field
+}
+
 func (field Field) Width() int {
 	return len(field[0])
 }
@@ -43,6 +52,18 @@ func (field Field) NextCell(column int, row int) bool {
 	willBeBorn := !cell && neighborCount == 3
 	willSurvive := cell && (neighborCount == 2 || neighborCount == 3)
 	return willBeBorn || willSurvive
+}
+
+func (field Field) NextField() Field {
+	nextField := NewField(field.Width(), field.Height())
+	for row := 0; row < field.Height(); row++ {
+		for column := 0; column < field.Width(); column++ {
+			nextCell := field.NextCell(column, row)
+			nextField.SetCell(column, row, nextCell)
+		}
+	}
+
+	return nextField
 }
 
 func wrapAroundModulus(value int, modulus int) int {
